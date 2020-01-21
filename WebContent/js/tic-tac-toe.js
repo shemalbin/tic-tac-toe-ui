@@ -15,9 +15,10 @@ $(document).ready(function() {
 	$('table tr td').click(function(){
 	      if($(this).text() == ""){
 	    	  $(this).text('o');
+	    	  getBoardValues();
+		      checkUserWin(board);
 	      }
-	      getBoardValues();
-	      checkUserWin(board);
+	      
 	});
 	
 });
@@ -120,4 +121,17 @@ function makeMove(){
 			console.log("error: " + data + " status: " + status + " er:" + er);
 		}
 	});
+}
+
+function resetGame(){
+	$("#ttt00").text('');
+	$("#ttt01").text('');
+	$("#ttt02").text('');
+	$("#ttt10").text('');
+	$("#ttt11").text('');
+	$("#ttt12").text('');
+	$("#ttt20").text('');
+	$("#ttt21").text('');
+	$("#ttt22").text('');
+	$("#message").empty();
 }
