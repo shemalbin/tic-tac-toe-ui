@@ -53,7 +53,11 @@ function checkUserWin(board){
 			if(data == 'EMPTY'){
 				makeMove();
 			} else if(data == 'CIRCLE'){
-				alert('The user won the game!');
+				$("#message").empty();
+				$("#message").append($('<div class="alert alert-primary alert-dismissible" role="alert">'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+						+'<span aria-hidden="true">&times;</span></button>'
+						+'<i class="fa fa-check-circle" style="text-align: center">The user won the game!</i></div>'));
 			} 
 		},
 		error : function(data, status, er) {
@@ -74,7 +78,11 @@ function checkComputerWin(board){
 
 		success : function(data) {
 			if(data == 'CROSS'){
-				alert('The computer won the game!')
+				$("#message").empty();
+				$("#message").append($('<div class="alert alert-danger alert-dismissible" role="alert">'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+						+'<span aria-hidden="true">&times;</span></button>'
+						+'<i class="fa fa-check-circle" style="text-align: center">The computer won the game!</i></div>'));
 			}
 		},
 		error : function(data, status, er) {
@@ -97,7 +105,11 @@ function makeMove(){
 
 		success : function(data) {
 			if(data[0] == -100 && data[1] == -100){
-				alert('It is a draw!!');
+				$("#message").empty();
+				$("#message").append($('<div class="alert alert-secondary alert-dismissible" role="alert">'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+						+'<span aria-hidden="true">&times;</span></button>'
+						+'<i class="fa fa-check-circle" style="text-align: center">It is a draw!</i></div>'));
 			} else{
 				$("#ttt"+data[0]+data[1]).text('x');
 				getBoardValues();

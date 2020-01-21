@@ -5,17 +5,19 @@
 		<title>TIC-TAC-TOE</title>
 		<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 		<style>
-			div{
+			.main-div{
 				width:400px;
 				margin-left: auto;
 				margin-right: auto;
 				margin-top: 100px;
-				}
+			}
 			tr{
 				height:100px;
 			}
 			table,tr,td{
 				border: 2px solid black !important;
+				font-weight: bold;
+				font-size: 100px;
 			}
 		</style>
 		
@@ -24,8 +26,10 @@
 	</head>
 	
 	<body>
-		<div>
-			<table class="table table-bordered">
+		<div class="main-div">
+			<h1>TIC-TAC-TOE</h1>
+			<div id="message"></div>
+			<table class="table table-bordered" style="table-layout: fixed;">
 			  <tbody>
 			    <tr>
 			      <td id="ttt00"></td>
@@ -34,7 +38,7 @@
 			    </tr>
 			    <tr>
 			      <td id="ttt10"></td>
-			      <td id="ttt11"></td>
+			      <td id="ttt11"></td>	
 			      <td id="ttt12"></td>
 			    </tr>
 			    <tr>
