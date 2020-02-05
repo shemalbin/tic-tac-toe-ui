@@ -1,8 +1,19 @@
 var board = [];
 var row;
 var col;
+var playerMark;
 
 $(document).ready(function() {
+	
+	$('#xbutton').click(function(){ 
+    	sessionStorage.setItem('mark','x');
+	});
+	
+	$('#obutton').click(function(){ 
+		sessionStorage.setItem('mark','o');
+    	
+	});
+	
 	/* Get the row and the column of where the user clicked*/
 	$('td').click(function(){ 
     	col = $(this).parent().children().index($(this));
@@ -13,8 +24,9 @@ $(document).ready(function() {
 	 * Secondly, it will call the function to add all the board values on the board
 	 * and lastly check if the user won the game with that move.*/
 	$('table tr td').click(function(){
+		playerMark = sessionStorage.getItem('mark');
 	      if($(this).text() == ""){
-	    	  $(this).text('o');
+	    	  $(this).text(playerMark);
 	    	  getBoardValues();
 		      checkUserWin(board);
 	      }
@@ -53,7 +65,13 @@ function checkUserWin(board){
 		success : function(data) {
 			if(data == 'EMPTY'){
 				makeMove();
-			} else if(data == 'CIRCLE'){
+			} else if(data == 'CIRCLE' && playerMark == 'o'){
+				$("#message").empty();
+				$("#message").append($('<div class="alert alert-primary alert-dismissible" role="alert">'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+						+'<span aria-hidden="true">&times;</span></button>'
+						+'<i class="fa fa-check-circle" style="text-align: center">The user won the game!</i></div>'));
+			} else if(data == 'CROSS' && playerMark == 'x'){
 				$("#message").empty();
 				$("#message").append($('<div class="alert alert-primary alert-dismissible" role="alert">'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
@@ -78,7 +96,13 @@ function checkComputerWin(board){
 		mimeType : 'application/json',
 
 		success : function(data) {
-			if(data == 'CROSS'){
+			if(data == 'CROSS' && playerMark == 'o'){
+				$("#message").empty();
+				$("#message").append($('<div class="alert alert-danger alert-dismissible" role="alert">'
+						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+						+'<span aria-hidden="true">&times;</span></button>'
+						+'<i class="fa fa-check-circle" style="text-align: center">The computer won the game!</i></div>'));
+			} else if(data == 'CIRCLE' && playerMark == 'x'){
 				$("#message").empty();
 				$("#message").append($('<div class="alert alert-danger alert-dismissible" role="alert">'
 						+'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
@@ -98,7 +122,7 @@ function checkComputerWin(board){
  * get the new board values and then check if the computer won.*/
 function makeMove(){
 	$.ajax({
-		url : "http://localhost:8088/tictactoe/board/"+board+"/row/"+row+"/col/"+col,
+		url : "http://localhost:8088/tictactoe/board/"+board+"/row/"+row+"/col/"+col+"/mark/"+playerMark,
 		type: 'GET',
 		dataType: 'json',
 		contentType : 'application/json',
@@ -112,7 +136,11 @@ function makeMove(){
 						+'<span aria-hidden="true">&times;</span></button>'
 						+'<i class="fa fa-check-circle" style="text-align: center">It is a draw!</i></div>'));
 			} else{
-				$("#ttt"+data[0]+data[1]).text('x');
+				if(playerMark == 'o'){
+					$("#ttt"+data[0]+data[1]).text('x');
+				} else if(playerMark == 'x'){
+					$("#ttt"+data[0]+data[1]).text('o');
+				}
 				getBoardValues();
 				checkComputerWin(board);
 			}
